@@ -1,0 +1,323 @@
+
+   body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom,#8d9ea8,  #ADD8E6);
+    
+  }
+
+  /* Loading Container */
+#loadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+#loadingLogo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+#progressBar {
+  width: 200px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#progress {
+  width: 0;
+  height: 100%;
+  background-color: #71da7a;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+/* Footer Styles */
+#footer {
+  text-align: center;
+  /* background-color: #f4f4f4; */
+  padding: 2px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* border-top: 1px solid #ddd; */
+}
+
+#footer p {
+  margin: 0;
+  color: #555;
+  font-size: 14px;
+}
+
+
+.hidden {
+  display: none;
+}
+
+
+  .section {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    background: linear-gradient(to bottom, #9aacb8, #ADD8E6);
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+section.active {
+    display: flex;
+}
+
+#taskPage {
+
+  align-items: center; /* Center horizontally */
+  
+}
+
+#taskPage #container {
+  text-align: center;
+}
+
+  #canvasContainer {
+    position: relative;
+    width: 98%;
+    height: 60vh;
+    background-color: #000000;
+    margin-top: 10px;
+    /* margin-right: 5%; */
+    margin-left: 0.5%;
+    border: 5px solid #234553; /* Add a solid black border */
+    border-radius: 10px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  #canvasContainer2 {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    /* background-color: #f0f0f0; */
+    margin-top: 10px;
+  }
+
+  #nextButton {
+    margin-top: 20px;
+  }
+
+  .card {
+    width: 150px;
+    height: 200px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+    cursor: pointer;
+  }
+
+  #pronunciationPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  #feedbackText {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  #reviewCardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+ 
+
+  h1, h2 ,h6{
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    animation: popUp 1s ease-out;
+  }
+
+  p, ul {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    animation: popUp 1.2s ease-out;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.3s;
+    
+  }
+
+  button:hover {
+    background-color: rgb(14, 89, 14);
+    transform: scale(1.1);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes popUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Hidden Sections */
+  [hidden] {
+    display: none !important;
+  }
+
+  
+
+  .welcome-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* background-image: url('Listening-Speaking-1536x1026.png'); */
+    background: linear-gradient(to bottom,#87CEFA,  #dfe8eb);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* .welcome-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Translucent white overlay */
+    /* z-index: 1; */
+/* }  */
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 2rem;
+    /* background-color: rgba(213, 237, 247, 0.5); Optional: additional translucency for text area */
+    border-radius: 10px;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.welcome-objectives {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.welcome-objectives ul {
+    list-style-type: disc;
+    padding-left: 2rem;
+}
+
+.welcome-objectives li {
+    margin-bottom: 0.5rem;
+}
+#welcomePage {
+  height: 100vh; /* Makes the section fill the full viewport height */
+  width: 100vw; /* Makes the section fill the full viewport width */
+  /* background-size: cover; Ensures the image covers the entire section */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  color: black; /* Adjust text color for readability */
+  display: flex; /* Enables flexbox for centering */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  text-align: center; /* Centers text inside the section */
+  margin: 0; /* Ensures no spacing issues */
+  padding: 0; /* Ensures no extra padding is added */
+  background: url('speech-bubbles-pattern.svg') repeat;
+  background-size: 150px 150px;
+}
+
+#welcomePage ul {
+  list-style: none; /* Removes bullet points */
+  padding: 0; /* Removes default padding */
+  margin: 0 auto; /* Centers the list horizontally */
+  text-align: center; /* Ensures text alignment is centered */
+}
+
+#welcomePage li {
+  margin: 10px 0; /* Adds spacing between list items */
+}
+
+#logo {
+  position: absolute; /* Positions the logo relative to #welcomePage */
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  z-index: 10; /* Ensures it stays above other elements */
+  width: 50px; /* Optional: Adjust logo size */
+  height: auto; /* Maintain aspect ratio */
+  margin: 15px;
+}
+
+.Theading{
+  margin-top: 15%;
+
+}

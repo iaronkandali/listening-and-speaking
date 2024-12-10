@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="stylesentence.css">
+    <style>/* Container Styling */
+      #container {
+          text-align: center;
+          max-width: 80%; /* Optional: to prevent content from stretching too far */
+      }
+      
+      /* Center the Heading */
+      #heading {
+          margin-bottom: 20px; /* Add space below the heading */
+          font-size: 24px;
+          font-weight: bold;
+          color: #333; /* Adjust heading color */
+      }</style>
+    <body>
+    <div id="container">
+      <img id="logo" src="image.png" alt="Logo" />
+    <h1>Drag the squares to form a correct sentence </h1>
+    <div id="canvasContainer3"></div>
+    <div id="navigation-buttons">
+      <button id="prevSentence">Previous</button>
+      <button id="nextSentence">Next</button>
+      <button id="backToTasks">Back to Tasks</button>
+    </div>
+
+ 
+
+    <script>
+      
+            let sentences = [
+    {
+        words: ["Learning", "is", "fun!"],
+        colors: []
+    },
+    {
+        words: ["Communication", "helps", "us", "grow."],
+        colors: []
+    },
+    {
+        words: ["Practice", "makes", "perfect."],
+        colors: []
+    },
+    {
+        words: ["Teamwork", "leads", "to", "success."],
+        colors: []
+    },
+    {
+        words: ["Believe", "in", "yourself."],
+        colors: []
+    },
+    {
+        words: ["Stay", "curious", "and", "learn."],
+        colors: []
+    },
+    {
+        words: ["Embrace", "new", "challenges."],
+        colors: []
+    }
+];
+
+let fragments = [];
+let targets = [];
+let currentSentenceIndex = 0;
+let isDragging = -1;
+let isComplete = false;
+let resetButton;
+
+function setup() {
+  let canvas = createCanvas(800, 400);
+  canvas.parent('canvasContainer3');
+  textSize(16);
+  
+  // Predefined colors for each sentence
+  let colorSets = [
+    [color(255, 100, 100), color(100, 255, 100), color(100, 100, 255)],
+    [color(255, 150, 100), color(100, 255, 150), color(150, 100, 255), color(255, 100, 150)],
+    [color(100, 255, 200), color(200, 100, 255), color(255, 200, 100)],
+    [color(255, 100, 200), color(100, 200, 255), color(200, 255, 100), color(100, 255, 150)],
+    [color(200, 100, 100), color(100, 200, 100), color(100, 100, 200)],
+    [color(255, 150, 50), color(50, 255, 150), color(150, 50, 255), color(255, 50, 150)],
+    [color(100, 255, 100), color(255, 100, 100), color(100, 100, 255)]
+  ];
+  
+  // Assign colors to sentences
+  sentences.forEach((sentence, index) => {
+    sentence.colors = colorSets[index];
+  });
+  
+  // Set up navigation buttons
+  select('#prevSentence').mousePressed(previousSentence);
+  select('#nextSentence').mousePressed(nextSentence);
+  select('#backToTasks').mousePressed(() => {
+    window.location.href = 'index.html';
+  });
+  
+  // Create reset button
+  resetButton = createButton('Reset');
+  resetButton.position(width / 2 - 50, height - 30);
+  resetButton.mousePressed(resetSentence);
+  resetButton.hide(); // Initially hidden
+  
+  initializeSentence();
+}
+
+function initializeSentence() {
+  // Clear existing fragments and targets
+  fragments = [];
+  targets = [];
+  
+  let currentSentence = sentences[currentSentenceIndex];
+  let shuffledWords = shuffle(currentSentence.words.slice());
+  
+  // Calculate starting positions to center the fragments and targets
+  let totalWidth = currentSentence.words.length * 180;
+  let startX = (width - totalWidth) / 2;
+  
+  // Initialize fragments and targets
+  for (let i = 0; i < currentSentence.words.length; i++) {
+    let wordIndex = currentSentence.words.indexOf(shuffledWords[i]);
+    fragments.push({
+      text: shuffledWords[i],
+      pos: createVector(startX + i * 180, height - 180),
+      w: 180,
+      h: 80,
+      color: currentSentence.colors[wordIndex]
+    });
+
+    targets.push({
+      x: startX + i * 180,
+      y: height / 3,
+      w: 180,
+      h: 80,
+      occupiedBy: null,
+    });
+  }
+  
+  isComplete = false;
+  resetButton.hide();
+}
+
+function draw() {
+  background(240);
+
+  // Draw targets
+  for (let i = 0; i < targets.length; i++) {
+    let target = targets[i];
+    if (isComplete) {
+      if (isCorrect()) {
+        stroke(0, 255, 0); // Green border for correct arrangement
+      } else {
+        stroke(255, 0, 0); // Red border for incorrect arrangement
+      }
+    } else {
+      stroke(0); // Default border color
+    }
+    strokeWeight(2);
+    noFill();
+    rect(target.x, target.y, target.w, target.h);
+  }
+
+  // Draw fragments
+  for (let frag of fragments) {
+    fill(frag.color);
+    stroke(0);
+    rect(frag.pos.x, frag.pos.y, frag.w, frag.h, 5);
+    fill(0);
+    noStroke();
+    textAlign(CENTER, CENTER);
+    text(frag.text, frag.pos.x + frag.w / 2, frag.pos.y + frag.h / 2);
+  }
+
+  // Display success or error message if sentence is complete
+  if (isComplete) {
+    textSize(20);
+    textAlign(CENTER);
+    if (isCorrect()) {
+      fill(0, 255, 0);
+      text("Correct!", width / 2, height - 50);
+    } else {
+      fill(255, 0, 0);
+      text("Incorrect! Try again", width / 2, height - 50);
+      resetButton.show(); // Show reset button when incorrect
+    }
+  }
+}
+
+function resetSentence() {
+  // Reset all targets to unoccupied
+  targets.forEach(target => target.occupiedBy = null);
+  
+  // Redistribute fragments back to bottom of canvas
+  let totalWidth = fragments.length * 100;
+  let startX = (width - totalWidth) / 2;
+  
+  fragments.forEach((frag, i) => {
+    frag.pos.set(startX + i * 100, height - 100);
+  });
+  
+  isComplete = false;
+  resetButton.hide();
+}
+
+function mousePressed() {
+  for (let i = 0; i < fragments.length; i++) {
+    let frag = fragments[i];
+    if (
+      mouseX > frag.pos.x &&
+      mouseX < frag.pos.x + frag.w &&
+      mouseY > frag.pos.y &&
+      mouseY < frag.pos.y + frag.h
+    ) {
+      isDragging = i;
+      break;
+    }
+  }
+}
+
+function mouseDragged() {
+  if (isDragging >= 0) {
+    let frag = fragments[isDragging];
+    frag.pos.set(mouseX - frag.w / 2, mouseY - frag.h / 2);
+    
+    // Clear the target this fragment was previously occupying
+    targets.forEach(target => {
+      if (target.occupiedBy === isDragging) {
+        target.occupiedBy = null;
+      }
+    });
+  }
+}
+
+function mouseReleased() {
+  if (isDragging >= 0) {
+    let frag = fragments[isDragging];
+    for (let target of targets) {
+      if (
+        mouseX > target.x &&
+        mouseX < target.x + target.w &&
+        mouseY > target.y &&
+        mouseY < target.y + target.h &&
+        target.occupiedBy === null
+      ) {
+        target.occupiedBy = isDragging;
+        frag.pos.set(target.x, target.y); // Snap fragment to target
+        break;
+      }
+    }
+    isDragging = -1;
+  }
+
+  // Check if all fragments are placed
+  isComplete = isAllPlaced();
+}
+
+function isAllPlaced() {
+  return targets.every((target) => target.occupiedBy !== null);
+}
+
+function isCorrect() {
+  let currentSentence = sentences[currentSentenceIndex];
+  return targets.every(
+    (target, i) => fragments[target.occupiedBy].text === currentSentence.words[i]
+  );
+}
+
+function nextSentence() {
+  currentSentenceIndex = (currentSentenceIndex + 1) % sentences.length;
+  initializeSentence();
+}
+
+function previousSentence() {
+  currentSentenceIndex = (currentSentenceIndex - 1 + sentences.length) % sentences.length;
+  initializeSentence();
+}
+    </script>
+        <!-- Footer -->
+
+  </body>
+</html>

@@ -1,0 +1,99 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom,#d9e5ec,  #9ab8c2);
+
+}
+h1, h2 ,h6{
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    animation: popUp 1s ease-out;
+  }
+#canvasContainer2 {
+    width: 800px;
+    height: 400px;
+    background-color: #000000;
+    border: 5px solid #234553; /* Add a solid black border */
+
+    /* color: black; */
+}
+#logo {
+    position: absolute; /* Positions the logo relative to #welcomePage */
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    z-index: 10; /* Ensures it stays above other elements */
+    width: 50px; /* Optional: Adjust logo size */
+    height: auto; /* Maintain aspect ratio */
+    margin: 15px;
+}
+
+#canvasContainer3 {
+    width: 800px;
+    height: 400px;
+    background-color: #000000;
+    border: 5px solid #234553; 
+}
+
+p, ul {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    animation: popUp 1.2s ease-out;
+}
+
+button {
+    margin-top: 5px;
+    padding: 15px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+button:hover {
+    background-color: rgb(14, 89, 14);
+
+    transform: scale(1.1);
+}
+
+#navigation-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+}
+
+
+
+.feedback-text {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #333;
+}
+/* 
+ Footer Styles */ 
+#footer {
+  text-align: center;
+  /* background-color: #f4f4f4; */
+  padding: 0px;
+  position: fixed;
+  bottom: 0;
+  
+  width: 100%;
+  /* border-top: 1px solid #ddd; */
+}
+
+#footer p {
+  margin: 0;
+  color: #555;
+  font-size: 14px;
+}
